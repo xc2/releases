@@ -32,4 +32,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: |
         cd release-isolated-vm
+        export CC=${CC:-gcc}
+        export CXX=${CXX:-g++}
+        echo $CC $CXX
+        type "$CC"
+        type "$CXX"
         npm ci || npm install
