@@ -1,0 +1,12 @@
+{
+  "name": "release-isolated-vm",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "postinstall": "./post.bash"
+  },
+  "dependencies": {
+    "isolated-vm": "3.3.10"
+  }
+}
