@@ -5,7 +5,9 @@ name: Netflix aws CIDR
 
 on:
   push:
-    branches: [ main ]
+    paths:
+      - netflix-aws.bash
+      - .github/workflows/netflix.yml
 
 jobs:
   build:
@@ -17,7 +19,9 @@ jobs:
 
     - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     
-    - run: ./netflix-aws.bash
+    - run: |
+        ./netflix-aws.bash
+        git add netflix-aws.txt
 
     - name: Push changes
       uses: ad-m/github-push-action@master
