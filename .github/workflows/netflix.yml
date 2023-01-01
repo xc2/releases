@@ -1,0 +1,33 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build isolated-vm
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: sudo apt update -y && apt install -y aggregate whois jq
+    
+    - run: |
+        echo > cidr.txt
+        for as in 55095 40027 394406 2906 136292; do
+          whois -h whois.radb.net -- '-i origin AS'$as | grep -Eo '([0-9.]+){4}/[0-9]+'' >> cidr.txt
+        done
+        wget https://ip-ranges.amazonaws.com/ip-ranges.json
+        jq -r '[.prefixes[] | select(.service=="AMAZON" and (.region | startswith("us-"))).ip_prefix] | .[]' < ip-ranges.json >> cidr.txt
+        cat cidr.txt | grep -v '^$' | aggregate -q > netflix-aws.txt
+
+        rm -f ip-ranges.json cidr.txt
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
