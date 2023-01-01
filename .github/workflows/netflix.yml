@@ -16,9 +16,13 @@ jobs:
 
     - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     
+    - run: ./netflix-aws.bash
+    
     - run: |
-        ./netflix-aws.bash
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
         git add netflix-aws.txt
+        git commit -m "Netflix+AWS CIDR Updated"
 
     - name: Push changes
       uses: ad-m/github-push-action@master
