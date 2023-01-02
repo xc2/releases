@@ -23,8 +23,8 @@ jobs:
     - run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add netflix-aws.txt
-        git commit -m "Netflix+AWS CIDR Updated"
+        git add netflix-aws.txt || true
+        git commit -m "Netflix+AWS CIDR Updated" || true
 
     - name: Push changes
       uses: ad-m/github-push-action@master
