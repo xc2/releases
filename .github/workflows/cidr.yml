@@ -1,0 +1,30 @@
+name: Update CIDRs
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: "20 3 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - run: sudo apt update -y && sudo apt install -y aggregate whois jq
+    
+    - name: Update Netflix AWS CIDRs
+      run: ./netflix-aws.bash
+
+    - name: Update Non-China CIDRs
+      run: ./nchnroutes.bash
+
+    - uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 10775fab2ad1edad0ad31e0b80774180
+        gist_file_name: netflix-aws.txt
+        file_path: netflix-aws.txt
+        file_type: text
