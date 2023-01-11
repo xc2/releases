@@ -28,3 +28,10 @@ jobs:
         gist_file_name: netflix-aws.txt
         file_path: netflix-aws.txt
         file_type: text
+    - uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 10775fab2ad1edad0ad31e0b80774180
+        gist_file_name: non-china.txt
+        file_path: non-china.txt
+        file_type: text
