@@ -14,19 +14,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     
     - run: ./netflix-aws.bash
-    
-    - run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
-        git add netflix-aws.txt || true
-        git commit -m "Netflix+AWS CIDR Updated" || true
 
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    - name: Deploy
+      uses: exuanbo/actions-deploy-gist@v1
       with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        gist_id: 10775fab2ad1edad0ad31e0b80774180
+        gist_file_name: netflix-aws.txt
+        file_path: netflix-aws.txt
+        file_type: text
+#    - run: |
+#        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+#        git config --local user.name "github-actions[bot]"
+#        git add netflix-aws.txt || true
+#        git commit -m "Netflix+AWS CIDR Updated" || true
+#
+#    - name: Push changes
+#      uses: ad-m/github-push-action@master
+#      with:
+#        github_token: ${{secrets.GITHUB_TOKEN}}
