@@ -15,23 +15,27 @@ jobs:
 
     - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     
-    - name: Update Netflix AWS CIDRs
-      run: ./netflix-aws.bash
-
-    - name: Update Non-China CIDRs
-      run: ./nchnroutes.bash
+    - name: Update CIDRs
+      run: make -C cidrs GEOIP_LICENSE=${{ secrets.GEOIP_LICENSE }}
 
     - uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 10775fab2ad1edad0ad31e0b80774180
         gist_file_name: netflix-aws.txt
-        file_path: netflix-aws.txt
+        file_path: cidrs/netflix-aws.txt
         file_type: binary
     - uses: exuanbo/actions-deploy-gist@v1
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 10775fab2ad1edad0ad31e0b80774180
         gist_file_name: non-china.txt
-        file_path: non-china.txt
+        file_path: cidrs/non-china-list.txt
+        file_type: binary
+    - uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 10775fab2ad1edad0ad31e0b80774180
+        gist_file_name: china.txt
+        file_path: cidrs/china-list.txt
         file_type: binary
