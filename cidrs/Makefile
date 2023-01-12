@@ -35,7 +35,7 @@ netflix-aws.txt: aws.json netflix.txt
 	cat "$@.progress" | grep -v '^$$' | aggregate -q > "$@"
 	rm -f "$@.progress"
 
-non-china-list.txt: china-list.txt ipv4-address-space.csv
+non-china-list.txt: china-list.txt ipv4-address-space.csv delegated-apnic-latest
 	python nchnroutes.py --ipv4-list ipip
 	cat routes4.conf | aggregate -q > "$@"
 	rm -f routes4.conf
