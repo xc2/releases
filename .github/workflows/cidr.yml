@@ -29,6 +29,13 @@ jobs:
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gist_id: 10775fab2ad1edad0ad31e0b80774180
+        gist_file_name: netflix-aws-us-west-2.txt
+        file_path: cidrs/netflix-aws-us-west-2.txt
+        file_type: binary
+    - uses: exuanbo/actions-deploy-gist@v1
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gist_id: 10775fab2ad1edad0ad31e0b80774180
         gist_file_name: non-china.txt
         file_path: cidrs/non-china-list.txt
         file_type: binary

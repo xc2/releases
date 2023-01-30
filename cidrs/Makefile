@@ -1,6 +1,6 @@
 .PHONY: all
 
-all: china-list.txt netflix-aws.txt non-china-list.txt
+all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt
 
 delegated-apnic-latest:
 	curl -Lo "$@" https://ftp.apnic.net/stats/apnic/delegated-apnic-latest
@@ -31,7 +31,13 @@ netflix.txt:
 
 netflix-aws.txt: aws.json netflix.txt
 	cp -f netflix.txt "$@.progress"
-	jq -r '[.prefixes[] | select(.service=="AMAZON" and (.region | startswith("us-"))).ip_prefix] | .[]' < aws.json >> "$@.progress"
+	jq -r '[.prefixes[] | select(.service=="EC2" and (.region | in({"us-west-2":1,"us-east-1":1,"eu-west-1":1}))).ip_prefix] | .[]' < aws.json >> "$@.progress"
+	cat "$@.progress" | grep -v '^$$' | aggregate -q > "$@"
+	rm -f "$@.progress"
+
+netflix-aws-us-west-2.txt: aws.json netflix.txt
+	cp -f netflix.txt "$@.progress"
+	jq -r '[.prefixes[] | select(.service=="EC2" and (.region | in({"us-west-2":1}))).ip_prefix] | .[]' < aws.json >> "$@.progress"
 	cat "$@.progress" | grep -v '^$$' | aggregate -q > "$@"
 	rm -f "$@.progress"
 
