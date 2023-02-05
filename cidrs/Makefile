@@ -26,6 +26,8 @@ netflix.txt:
 	for as in 55095 40027 394406 2906 136292; do \
   	whois -h whois.radb.net -- '-i origin AS'$$as | grep -Eo '([0-9.]+){4}/[0-9]+' >> "$@.progress" ;\
 	done
+	# Netflix Stream Services :: HiNet Peering
+	echo "203.75.0.0/16" >> "$@.progress"
 	cat "$@.progress" | aggregate -q > "$@"
 	rm -f "$@.progress"
 
