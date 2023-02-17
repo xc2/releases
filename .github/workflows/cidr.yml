@@ -12,37 +12,50 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+      with:
+        repository: '10775fab2ad1edad0ad31e0b8077418'
+        path: 'cidr-gist'
+        github-server-url: 'https://gist.github.com'
+    - run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        cd cidr-gist
+        echo 'init' > README.md
+        git add README.md
+        git commit -m 'init README'
+        git push origin HEAD
 
-    - run: sudo apt update -y && sudo apt install -y aggregate whois jq
+    # - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     
-    - name: Update CIDRs
-      run: make -C cidrs GEOIP_LICENSE=${{ secrets.GEOIP_LICENSE }}
+    # - name: Update CIDRs
+    #   run: make -C cidrs GEOIP_LICENSE=${{ secrets.GEOIP_LICENSE }}
 
-    - uses: exuanbo/actions-deploy-gist@v1
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 10775fab2ad1edad0ad31e0b80774180
-        gist_file_name: netflix-aws.txt
-        file_path: cidrs/netflix-aws.txt
-        file_type: binary
-    - uses: exuanbo/actions-deploy-gist@v1
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 10775fab2ad1edad0ad31e0b80774180
-        gist_file_name: netflix-aws-us-west-2.txt
-        file_path: cidrs/netflix-aws-us-west-2.txt
-        file_type: binary
-    - uses: exuanbo/actions-deploy-gist@v1
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 10775fab2ad1edad0ad31e0b80774180
-        gist_file_name: non-china.txt
-        file_path: cidrs/non-china-list.txt
-        file_type: binary
-    - uses: exuanbo/actions-deploy-gist@v1
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gist_id: 10775fab2ad1edad0ad31e0b80774180
-        gist_file_name: china.txt
-        file_path: cidrs/china-list.txt
-        file_type: binary
+    # - uses: exuanbo/actions-deploy-gist@v1
+    #   with:
+    #     token: ${{ secrets.GIST_TOKEN }}
+    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
+    #     gist_file_name: netflix-aws.txt
+    #     file_path: cidrs/netflix-aws.txt
+    #     file_type: binary
+    # - uses: exuanbo/actions-deploy-gist@v1
+    #   with:
+    #     token: ${{ secrets.GIST_TOKEN }}
+    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
+    #     gist_file_name: netflix-aws-us-west-2.txt
+    #     file_path: cidrs/netflix-aws-us-west-2.txt
+    #     file_type: binary
+    # - uses: exuanbo/actions-deploy-gist@v1
+    #   with:
+    #     token: ${{ secrets.GIST_TOKEN }}
+    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
+    #     gist_file_name: non-china.txt
+    #     file_path: cidrs/non-china-list.txt
+    #     file_type: binary
+    # - uses: exuanbo/actions-deploy-gist@v1
+    #   with:
+    #     token: ${{ secrets.GIST_TOKEN }}
+    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
+    #     gist_file_name: china.txt
+    #     file_path: cidrs/china-list.txt
+    #     file_type: binary
