@@ -17,12 +17,12 @@ jobs:
         repository: 'xc2/10775fab2ad1edad0ad31e0b80774180'
         ref: 'main'
         path: 'cidr-gist'
+        token: ${{ secrets.GIST_TOKEN }}
         github-server-url: 'https://gist.github.com'
     - run: |
         cd cidr-gist
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git remote set-url --push origin https://gist.github.com/10775fab2ad1edad0ad31e0b80774180.git
         echo 'init' > README.md
         git add README.md
         git commit -m 'init README'
