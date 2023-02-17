@@ -19,9 +19,9 @@ jobs:
         path: 'cidr-gist'
         github-server-url: 'https://gist.github.com'
     - run: |
+        cd cidr-gist
         git config user.name github-actions
         git config user.email github-actions@github.com
-        cd cidr-gist
         echo 'init' > README.md
         git add README.md
         git commit -m 'init README'
