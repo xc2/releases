@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/checkout@v3
       with:
-        repository: 'xc2/10775fab2ad1edad0ad31e0b8077418'
+        repository: 'xc2/10775fab2ad1edad0ad31e0b80774180'
         ref: 'main'
         path: 'cidr-gist'
         github-server-url: 'https://gist.github.com'
