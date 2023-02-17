@@ -11,24 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - run: sudo apt update -y && sudo apt install -y aggregate whois jq
     - uses: actions/checkout@v3
+    - name: Update CIDRs
+      run: make -C cidrs GEOIP_LICENSE=${{ secrets.GEOIP_LICENSE }}
+
     - uses: actions/checkout@v3
       with:
         repository: 'xc2/10775fab2ad1edad0ad31e0b80774180'
         ref: 'main'
         path: 'cidr-gist'
+        fetch-depth: 0
         token: ${{ secrets.GIST_TOKEN }}
         github-server-url: 'https://gist.github.com'
-    - run: |
-        pushd cidr-gist
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        popd
-
-    - run: sudo apt update -y && sudo apt install -y aggregate whois jq
-    
-    - name: Update CIDRs
-      run: make -C cidrs GEOIP_LICENSE=${{ secrets.GEOIP_LICENSE }}
 
     - name: Push to gist
       run: |
@@ -37,38 +32,12 @@ jobs:
         cp -f cidrs/non-china-list.txt cidr-gist/non-china.txt
         cp -f cidrs/china-list.txt cidr-gist/china.txt
         cd cidr-gist
+
+        git config user.name github-actions
+        git config user.email github-actions@github.com
         git add .
         git commit -m 'Update CIDRs' || true
         ../.github/workflows/cidr-metadata.bash > README.md
         git add README.md
         git commit -m 'Update metadata' || true
         git push origin HEAD || true
-
-    # - uses: exuanbo/actions-deploy-gist@v1
-    #   with:
-    #     token: ${{ secrets.GIST_TOKEN }}
-    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
-    #     gist_file_name: netflix-aws.txt
-    #     file_path: cidrs/netflix-aws.txt
-    #     file_type: binary
-    # - uses: exuanbo/actions-deploy-gist@v1
-    #   with:
-    #     token: ${{ secrets.GIST_TOKEN }}
-    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
-    #     gist_file_name: netflix-aws-us-west-2.txt
-    #     file_path: cidrs/netflix-aws-us-west-2.txt
-    #     file_type: binary
-    # - uses: exuanbo/actions-deploy-gist@v1
-    #   with:
-    #     token: ${{ secrets.GIST_TOKEN }}
-    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
-    #     gist_file_name: non-china.txt
-    #     file_path: cidrs/non-china-list.txt
-    #     file_type: binary
-    # - uses: exuanbo/actions-deploy-gist@v1
-    #   with:
-    #     token: ${{ secrets.GIST_TOKEN }}
-    #     gist_id: 10775fab2ad1edad0ad31e0b80774180
-    #     gist_file_name: china.txt
-    #     file_path: cidrs/china-list.txt
-    #     file_type: binary
