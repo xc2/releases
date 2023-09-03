@@ -1,6 +1,6 @@
 .PHONY: all
 
-all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt
+all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt valve.txt
 
 delegated-apnic-latest:
 	curl -Lo "$@" https://ftp.apnic.net/stats/apnic/delegated-apnic-latest
@@ -48,3 +48,5 @@ non-china-list.txt: china-list.txt ipv4-address-space.csv delegated-apnic-latest
 	cat routes4.conf | aggregate -q > "$@"
 	rm -f routes4.conf
 
+valve.txt:
+	whois -h whois.radb.net -- '-i origin AS32590' | grep -E '^route:' | awk '{print $$2}' | aggregate -q > "$@"

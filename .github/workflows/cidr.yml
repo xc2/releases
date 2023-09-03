@@ -27,10 +27,11 @@ jobs:
 
     - name: Push to gist
       run: |
-        cp -f cidrs/netflix-aws.txt cidr-gist/netflix-aws.txt
-        cp -f cidrs/netflix-aws-us-west-2.txt cidr-gist/netflix-aws-us-west-2.txt
+        cp -f cidrs/netflix-aws.txt cidr-gist/
+        cp -f cidrs/netflix-aws-us-west-2.txt cidr-gist/
         cp -f cidrs/non-china-list.txt cidr-gist/non-china.txt
         cp -f cidrs/china-list.txt cidr-gist/china.txt
+        cp -f cidrs/valve.txt cidr-gist/
         cd cidr-gist
 
         git config user.name github-actions
