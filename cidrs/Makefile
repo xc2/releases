@@ -23,7 +23,7 @@ aws.json:
 
 netflix.txt:
 	echo -n "" > "$@.progress"
-	for as in 55095 40027 394406 2906 136292; do \
+	for as in 55095 40027 2906; do \
   	whois -h whois.radb.net -- '-i origin AS'$$as | grep -Eo '([0-9.]+){4}/[0-9]+' >> "$@.progress" ;\
 	done
 	# Netflix Stream Services :: HiNet Peering
