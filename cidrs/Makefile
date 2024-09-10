@@ -50,3 +50,12 @@ non-china-list.txt: china-list.txt ipv4-address-space.csv delegated-apnic-latest
 
 valve.txt:
 	whois -h whois.radb.net -- '-i origin AS32590' | grep -E '^route:' | awk '{print $$2}' | aggregate -q > "$@"
+
+
+zscaler.txt:
+	rm -f "$@.progress"
+	for as in 62907 62044 53813 53444 22616; do \
+  	whois -h whois.radb.net -- '-i origin AS'$$as | grep -Eo '([0-9.]+){4}/[0-9]+' >> "$@.progress" ;\
+	done
+	cat "$@.progress" | aggregate -q > "$@"
+	rm -f "$@.progress"
