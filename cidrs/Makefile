@@ -1,6 +1,6 @@
 .PHONY: all
 
-all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt valve.txt
+all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt valve.txt zscaler.txt
 
 delegated-apnic-latest:
 	curl -Lo "$@" https://ftp.apnic.net/stats/apnic/delegated-apnic-latest
