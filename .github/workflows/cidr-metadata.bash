@@ -2,6 +2,8 @@
 
 echo "# Useful CIDRs
 
+> Auto generated with [xc2/releases](https://github.com/xc2/releases)
+
 | File | CIDRs | Last Updated |
 | - | - | - |"
 git ls-files -- '*.txt' | while read line; do
