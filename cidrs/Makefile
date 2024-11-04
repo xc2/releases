@@ -1,6 +1,6 @@
 .PHONY: all
 
-all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt valve.txt zscaler.txt
+all: china-list.txt netflix-aws.txt non-china-list.txt netflix-aws-us-west-2.txt valve.txt zscaler.txt tor-exit-ipv4.txt
 
 delegated-apnic-latest:
 	curl -Lo "$@" https://ftp.apnic.net/stats/apnic/delegated-apnic-latest
@@ -59,3 +59,12 @@ zscaler.txt:
 	done
 	cat "$@.progress" | aggregate -q > "$@"
 	rm -f "$@.progress"
+
+tor-exit-ipv4.txt:
+	rm -f "$@.progress"
+	curl -o "$@.json" 'https://onionoo.torproject.org/details?search=flag:exit%20type:relay%20running:true&fields=exit_addresses'
+	cat "$@.json" | jq -r '.relays | map(.exit_addresses) | flatten |join("\n")' | sort -h > "$@.progress"
+	cat "$@.progress" | grep -v '^$$' | aggregate -q -p 32 > "$@"
+	rm -f "$@.progress"
+
+

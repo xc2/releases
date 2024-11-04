@@ -33,6 +33,7 @@ jobs:
         cp -f cidrs/china-list.txt cidr-gist/china.txt
         cp -f cidrs/valve.txt cidr-gist/
         cp -f cidrs/zscaler.txt cidr-gist/
+        cp -f cidrs/tor-exit-ipv4.txt cidr-gist/
         cd cidr-gist
 
         git config user.name github-actions
